@@ -1,0 +1,49 @@
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored — never commit it
+
+project_name       = "my-project"
+project            = "my-project"
+aws_region         = "us-east-1"
+aws_profile        = "default"
+environment        = "dev"
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# VPC
+vpc_cidr             = "10.0.0.0/16"
+private_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
+public_subnet_cidrs  = ["10.0.101.0/24", "10.0.102.0/24"]
+
+# Networking mode
+use_elastic_ip     = false
+create_nat_gateways = true
+
+# Existing resources (leave empty to create new)
+# existing_vpc_id           = "vpc-0123456789abcdef0"
+# existing_eip_ids          = ["eipalloc-0123456789abcdef0"]
+# existing_redis_cluster_id = "my-redis-cluster"
+
+# Redis
+create_redis = true
+
+# ECS Services
+services = [
+  {
+    name             = "api"
+    container_port   = 3000
+    cpu              = 256
+    memory           = 512
+    desired_count    = 1
+    container_image  = "node:18-alpine"
+  },
+  {
+    name             = "worker"
+    container_port   = 3001
+    cpu              = 256
+    memory           = 512
+    desired_count    = 1
+    container_image  = "node:18-alpine"
+  }
+]
+
+# Security
+allow_incoming_connections = false
