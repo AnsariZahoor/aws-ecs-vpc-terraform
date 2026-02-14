@@ -3,35 +3,9 @@
 Production-grade, modular Terraform project that provisions a complete AWS networking and container orchestration stack. Deploys ECS Fargate services inside isolated VPC subnets with optional NAT Gateways, ElastiCache Redis, and VPC Endpoints — all fully configurable.
 
 ## Architecture
+https://github.com/AnsariZahoor/media-storage/blob/main/private.png
 
-```
-                         ┌─────────────────────────────────────────────────┐
-                         │                     VPC                         │
-                         │                                                 │
-  Internet ──── IGW ─────┤  ┌───────────────┐    ┌──────────────────────┐  │
-                         │  │ Public Subnet │    │   VPC Endpoints      │  │
-                         │  │  (NAT GW)     │    │  - ECR API / DKR     │  │
-                         │  └──────┬────────┘    │  - CloudWatch Logs   │  │
-                         │         │             │  - S3 Gateway        │  │
-                         │         ▼             └──────────────────────┘  │
-                         │  ┌──────────────┐                               │
-                         │  │ NAT Gateway  │  (optional, per-service)      │
-                         │  └──────┬───────┘                               │
-                         │         │                                       │
-                         │  ┌──────┴─────────────────────────────────┐     │
-                         │  │         Service Subnets (isolated)     │     │
-                         │  │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │     │
-                         │  │  │ ECS Svc │ │ ECS Svc │ │ ECS Svc │   │     │
-                         │  │  │  (FG)   │ │  (FG)   │ │  (FG)   │   │     │
-                         │  │  └─────────┘ └─────────┘ └─────────┘   │     │
-                         │  └────────────────────────────────────────┘     │
-                         │                                                 │
-                         │  ┌──────────────┐    ┌──────────────────────┐   │
-                         │  │Private Subnet│    │  ElastiCache Redis   │   │
-                         │  │              │    │  (cache.t3.micro)    │   │
-                         │  └──────────────┘    └──────────────────────┘   │
-                         └─────────────────────────────────────────────────┘
-```
+https://github.com/AnsariZahoor/media-storage/blob/main/public.png
 
 ## Modules
 
@@ -44,17 +18,6 @@ The infrastructure is split into five focused modules:
 | **`modules/ecs`** | ECS Fargate cluster, services, shared task definition, CloudWatch Logs, VPC endpoints |
 | **`modules/redis`** | ElastiCache Redis cluster, subnet group, parameter group |
 | **`modules/iam`** | ECS task execution role and task role with least-privilege policies |
-
-### Module Dependency Graph
-
-```
-networking ──┐
-             ├──► security ──┐
-             │                ├──► redis ──┐
-             │    iam ────────┤            ├──► ecs
-             │                │            │
-             └────────────────┴────────────┘
-```
 
 ## Key Design Decisions
 
