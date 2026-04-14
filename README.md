@@ -3,9 +3,9 @@
 Production-grade, modular Terraform project that provisions a complete AWS networking and container orchestration stack. Deploys ECS Fargate services inside isolated VPC subnets with optional NAT Gateways, ElastiCache Redis, and VPC Endpoints — all fully configurable.
 
 ## Architecture
-![image](https://drive.google.com/file/d/1qmKmXzbUx7a6rFbcOqB72s8A1DLyKRQY/view?usp=sharing)
+![image](images/private.png)
 
-![image](https://drive.google.com/file/d/1QohAReyzjlloyqLRkUOpRETbKEaTdNfF/view?usp=sharing)
+![image](images/public.png)
 
 ## Modules
 
